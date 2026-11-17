@@ -1,0 +1,141 @@
+{
+  "name": "permis-hebdo",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        160
+      ],
+      "id": "e02e4e4a-13c1-4fb0-a055-c749ed33836c",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "command": "\"C:\\Users\\mvond\\anaconda3\\envs\\permis\\python.exe\" -X utf8 \"C:\\Projets\\permis-quebec\\python\\pipeline.py\" --url \"https://www.donneesquebec.ca/recherche/dataset/879abf6e-c6b2-430a-b44a-16335467c6f6/resource/9555031e-cfc5-4b78-bec9-4ab84b549f67/download/vdq-permis.csv\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "98331509-b2f3-429b-a1eb-ee21e62a3a99",
+      "name": "Execute Command"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -64,
+        -160
+      ],
+      "id": "7200e40f-01aa-4a6c-a981-81569deb14f4",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "stdout",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "35383e1b-b20d-4d6d-8598-1bd467235fcf",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=C:\\Projets\\permis-quebec\\reports\\journal_{{ $now.toFormat('yyyy-MM-dd') }}.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "b8baafbb-d996-48e4-983c-c4ff7eb4c1d4",
+      "name": "Read/Write Files from Disk"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "87a5b219-c160-43b1-8802-db8cbe401db4",
+  "meta": {
+    "instanceId": "85991bf6b0d90711e66aa706e520783c808b00ed70b1d0679453d85c64e12587"
+  },
+  "nodeGroups": [],
+  "id": "Mfj4TsrEVBPuthmu",
+  "tags": []
+}

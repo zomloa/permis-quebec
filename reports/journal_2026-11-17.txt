@@ -1,0 +1,8 @@
+Fichier brut : permis_2026-11-17.csv
+Lignes brutes : 71612 - Lignes nettoyées : 69309
+Indicateur exporté : permis_par_mois
+Indicateur exporté : permis_par_type
+Indicateur exporté : permis_par_domaine
+Indicateur exporté : permis_par_arrondissement_annee
+Indicateur exporté : variation_mensuelle
+Pipeline terminé.
